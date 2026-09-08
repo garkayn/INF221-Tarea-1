@@ -1,0 +1,17 @@
+Configuré la entrega para Linux de 64 bits, con un procesador Intel Core
+i7-8700 a \SI{3.20}{\giga\hertz} y \SI{31.88}{\gibi\byte} de memoria física.
+La compilación usa GCC/G++ 15.2.0, C++17 y optimización \texttt{-O2}. Generé
+los datos con Python 3.10 y NumPy 1.26.4, usando la semilla 221. Registré las
+mediciones en CSV y construí las figuras con Matplotlib 3.10.9
+\cite{numpy2026,pythoncsv2026,matplotlib2026}.
+
+El programa usa \texttt{make}/\texttt{python3}, procesos POSIX mediante
+\texttt{fork}/\texttt{execv} y obtiene la memoria con
+\texttt{wait4(2)}/\texttt{ru\_maxrss} \cite{linuxwait42026}.
+
+Para $n=10,10^3,10^5$ y para matrices de dimensión $16,64,256$ usé las 18
+combinaciones de tipo, dominio y muestra definidas en el enunciado. En los
+tamaños máximos ($10^7$ y $1024$) ejecuté una muestra representativa por el
+costo de almacenamiento y cómputo. Cada algoritmo se ejecutó en un proceso
+independiente. Medí solo su llamada con \texttt{steady\_clock}; la memoria es
+el máximo RSS del proceso completo, obtenido mediante \texttt{wait4(2)}.
