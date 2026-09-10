@@ -23,10 +23,9 @@ import matplotlib.pyplot as plt
 
 ROOT = Path(__file__).resolve().parents[1]
 INPUT = ROOT / "data" / "measurements" / "matrix_measurements.csv"
-SUMMARY = ROOT / "data" / "measurements" / "matrix_summary.csv"
 OUTPUT = ROOT / "data" / "plots"
 
-LABELS = {"naive": "Clásico", "strassen": "Strassen"}
+LABELS = {"naive": "Naive", "strassen": "Strassen"}
 COLORS = {"naive": "#ea580c", "strassen": "#0891b2"}
 
 
@@ -78,13 +77,6 @@ def aggregate(rows: list[dict[str, object]]) -> list[dict[str, object]]:
     return result
 
 
-def write_summary(summary: list[dict[str, object]]) -> None:
-    with SUMMARY.open("w", newline="", encoding="utf-8") as stream:
-        writer = csv.DictWriter(stream, fieldnames=list(summary[0]))
-        writer.writeheader()
-        writer.writerows(summary)
-
-
 def line_plot(
     summary: list[dict[str, object]],
     metric: str,
@@ -119,53 +111,10 @@ def line_plot(
     plt.close(fig)
 
 
-def matrix_type_plot(rows: list[dict[str, object]]) -> None:
-    types_by_size: dict[int, set[str]] = defaultdict(set)
-    for row in rows:
-        types_by_size[int(row["n"])].add(str(row["type"]))
-    candidates = [size for size, types in types_by_size.items() if len(types) >= 2]
-    if not candidates:
-        return
-    selected_size = max(candidates)
-    types = sorted(types_by_size[selected_size])
-
-    fig, axis = plt.subplots(figsize=(8.2, 4.8), layout="constrained")
-    width = 0.34
-    positions = list(range(len(types)))
-    for index, algorithm in enumerate(LABELS):
-        medians = []
-        for data_type in types:
-            samples = [
-                float(row["time_ms"])
-                for row in rows
-                if row["algorithm"] == algorithm
-                and row["type"] == data_type
-                and row["n"] == selected_size
-            ]
-            medians.append(median(samples) if samples else 0.0)
-        offset = (index - 0.5) * width
-        axis.bar(
-            [position + offset for position in positions],
-            medians,
-            width=width,
-            color=COLORS[algorithm],
-            label=LABELS[algorithm],
-        )
-    axis.set_xticks(positions, [value.capitalize() for value in types])
-    axis.set_yscale("log")
-    axis.set_ylabel("Tiempo mediano (ms)")
-    axis.set_title(f"Efecto del tipo de matriz para n={selected_size}")
-    axis.grid(True, axis="y", which="both", linestyle=":", alpha=0.45)
-    axis.legend()
-    fig.savefig(OUTPUT / "matrix_by_type.png", dpi=180)
-    plt.close(fig)
-
-
 def main() -> None:
     OUTPUT.mkdir(parents=True, exist_ok=True)
     rows = read_measurements()
     summary = aggregate(rows)
-    write_summary(summary)
     line_plot(
         summary,
         "median_time_ms",
@@ -182,8 +131,6 @@ def main() -> None:
         "matrix_memory.png",
         False,
     )
-    matrix_type_plot(rows)
-    print(f"Gráficos guardados en {OUTPUT}")
 
 
 if __name__ == "__main__":

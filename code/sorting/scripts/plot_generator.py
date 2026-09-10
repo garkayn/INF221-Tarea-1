@@ -23,7 +23,6 @@ import matplotlib.pyplot as plt
 
 ROOT = Path(__file__).resolve().parents[1]
 INPUT = ROOT / "data" / "measurements" / "sorting_measurements.csv"
-SUMMARY = ROOT / "data" / "measurements" / "sorting_summary.csv"
 OUTPUT = ROOT / "data" / "plots"
 
 LABELS = {
@@ -86,13 +85,6 @@ def aggregate(rows: list[dict[str, object]]) -> list[dict[str, object]]:
             }
         )
     return result
-
-
-def write_summary(summary: list[dict[str, object]]) -> None:
-    with SUMMARY.open("w", newline="", encoding="utf-8") as stream:
-        writer = csv.DictWriter(stream, fieldnames=list(summary[0]))
-        writer.writeheader()
-        writer.writerows(summary)
 
 
 def line_plot(
@@ -179,7 +171,6 @@ def main() -> None:
     OUTPUT.mkdir(parents=True, exist_ok=True)
     rows = read_measurements()
     summary = aggregate(rows)
-    write_summary(summary)
     line_plot(
         summary,
         "median_time_ms",

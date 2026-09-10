@@ -2,7 +2,7 @@
 
 ## Estructura del Repositorio
 
-Este repositorio contiene mi implementación, los datasets, las mediciones, los
+Este repositorio contiene la implementación, los datasets, las mediciones, los
 gráficos reproducibles y el mini-informe de la Tarea 1 de *INF-221 Algoritmos y
 Complejidad*.
 
@@ -26,7 +26,4 @@ Contiene los programas implementados y las instrucciones de reproducción:
 - `sorting`: std::sort, merge sort, quick sort, patience sort.
 
 ### `report`
-En esta carpeta se encuentra la plantilla en LaTeX para la elaboración del mini-informe correspondiente a la tarea.
-
-Para compilar, ejecutar los experimentos y regenerar los gráficos, revise
-[`code/README.md`](code/README.md).
+En esta carpeta se encuentran los archivos LATEX del mini-informe correspondiente a la tarea.

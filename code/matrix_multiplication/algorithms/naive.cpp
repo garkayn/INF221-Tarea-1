@@ -2,7 +2,7 @@
  * INF-221 Algoritmos y Complejidad - 2026-2
  * Tarea 1 - Matías Jorquera - Rol 202310127-3
  *
- * Multiplicación clásica de matrices con tres ciclos anidados.
+ * Multiplicación naive de matrices con tres ciclos anidados.
  * Referencia: Cormen, Leiserson, Rivest y Stein, Introduction to
  * Algorithms, 4.a edición, MIT Press, 2022, sección 4.1.
  * https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/

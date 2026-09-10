@@ -294,7 +294,7 @@ void printUsage(const char* executable) {
               << "Ejecuta todos los datasets válidos de data/array_input.\n";
 }
 
-}  // namespace
+}
 
 int main(int argc, char* argv[]) {
     try {

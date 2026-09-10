@@ -36,7 +36,7 @@ struct NodeGreater {
     }
 };
 
-}  // namespace
+}
 
 void patienceSort(std::vector<int>& values) {
     if (values.size() > static_cast<std::size_t>(INT_MAX)) {

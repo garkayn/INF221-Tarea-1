@@ -13,10 +13,6 @@
 
 #pragma once
 
-#if !defined(__linux__)
-#error "Esta tarea requiere Linux."
-#endif
-
 // wait4(2) se declara en glibc cuando están habilitadas sus extensiones.
 #if !defined(_GNU_SOURCE)
 #define _GNU_SOURCE

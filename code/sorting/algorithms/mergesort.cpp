@@ -69,7 +69,7 @@ void mergeSortRange(
     mergeRanges(values, auxiliary, begin, middle, end);
 }
 
-}  // namespace
+}
 
 void mergeSort(std::vector<int>& values) {
     std::vector<int> auxiliary(values.size());

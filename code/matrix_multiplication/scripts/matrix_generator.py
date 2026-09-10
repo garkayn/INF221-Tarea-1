@@ -1,80 +1,77 @@
-"""
-INF-221 Algoritmos y Complejidad - 2026-2
-Tarea 1 - Matías Jorquera - Rol 202310127-3
-
-Generador reproducible de pares de matrices definidos en el enunciado.
-Referencia: NumPy, documentación de Generator.integers:
-https://numpy.org/doc/stable/reference/random/generated/numpy.random.Generator.integers.html
-"""
-
-from __future__ import annotations
-
-import argparse
-from itertools import product
-from pathlib import Path
-
 import numpy as np
+import os
+import random
+from itertools import product
 
+def generar_matriz(n, tipo, dominio):
+    """
+    Genera una matriz de tamaño n x n según el tipo y dominio especificados.
+    - tipo: 'dispersa', 'diagonal', 'densa'
+    - dominio: 'D0' (valores en {0,1}) o 'D10' (valores en {0..9})
+    """
+    if dominio == 'D0':
+        valores = [0, 1]
+    elif dominio == 'D10':
+        valores = list(range(10))
+    else:
+        raise ValueError("Dominio no válido. Usa 'D0' o 'D10'.")
 
-DEFAULT_OUTPUT = Path(__file__).resolve().parents[1] / "data" / "matrix_input"
+    if tipo == 'densa':
+        matriz = np.random.choice(valores, size=(n, n))
+    elif tipo == 'diagonal':
+        matriz = np.zeros((n, n), dtype=int)
+        diag_vals = np.random.choice(valores, size=n)
+        np.fill_diagonal(matriz, diag_vals)
+    elif tipo == 'dispersa':
+        matriz = np.zeros((n, n), dtype=int)
+        cantidad = max(1, (n * n) // 10)  # solo 10% elementos diferentes de 0
+        for _ in range(cantidad):
+            i = random.randint(0, n-1)
+            j = random.randint(0, n-1)
+            matriz[i, j] = random.choice([v for v in valores if v != 0])
+    else:
+        raise ValueError("Tipo no válido. Usa 'densa', 'diagonal' o 'dispersa'.")
+    
+    return matriz
 
+def guardar_matriz(matriz, nombre_archivo):
+    """
+    Guarda una matriz en un archivo de texto.
+    """
+    with open(nombre_archivo, 'w') as f:
+        for fila in matriz:
+            f.write(' '.join(map(str, fila)) + '\n')
 
-def generate_matrix(
-    size: int, matrix_type: str, domain: str, rng: np.random.Generator
-) -> np.ndarray:
-    upper = 2 if domain == "D0" else 10
-    if matrix_type == "densa":
-        return rng.integers(0, upper, size=(size, size), dtype=np.int64)
+def generar_y_guardar(n, t, d, m, carpeta="../data/matrix_input"):
+    """
+    Genera dos matrices y las guarda en archivos con nombres formateados.
+    """
 
-    matrix = np.zeros((size, size), dtype=np.int64)
-    if matrix_type == "diagonal":
-        np.fill_diagonal(matrix, rng.integers(0, upper, size=size))
-    elif matrix_type == "dispersa":
-        count = max(1, size * size // 10)
-        positions = rng.choice(size * size, size=count, replace=False)
-        matrix.flat[positions] = rng.integers(1, upper, size=count)
-    return matrix
+    M1 = generar_matriz(n, t, d)
+    M2 = generar_matriz(n, t, d)
 
+    base = f"{n}_{t}_{d}_{m}"
+    archivo1 = os.path.join(carpeta, f"{base}_1.txt")
+    archivo2 = os.path.join(carpeta, f"{base}_2.txt")
 
-def write_matrix(path: Path, matrix: np.ndarray) -> None:
-    np.savetxt(path, matrix, fmt="%d")
+    guardar_matriz(M1, archivo1)
+    guardar_matriz(M2, archivo2)
 
+    print(f"Archivos guardados: {archivo1}, {archivo2}")
 
-def parse_arguments() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--sizes", nargs="+", type=int, default=[16, 64, 256, 1024])
-    parser.add_argument(
-        "--types",
-        nargs="+",
-        choices=["dispersa", "diagonal", "densa"],
-        default=["dispersa", "diagonal", "densa"],
-    )
-    parser.add_argument("--domains", nargs="+", choices=["D0", "D10"], default=["D0", "D10"])
-    parser.add_argument("--samples", nargs="+", default=["a", "b", "c"])
-    parser.add_argument("--seed", type=int, default=221)
-    parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT)
-    parser.add_argument("--overwrite", action="store_true")
-    return parser.parse_args()
+def generar_todos():
+    Ns = [2**4, 2**6, 2**8, 2**10]
+    Ts = ["dispersa", "diagonal", "densa"]
+    Ds = ["D0", "D10"]
+    Ms = ["a", "b", "c"]
 
+    total = len(Ns) * len(Ts) * len(Ds) * len(Ms)
+    print(f"Generando {total * 2} archivos de matrices...")
 
-def main() -> None:
-    arguments = parse_arguments()
-    arguments.output_dir.mkdir(parents=True, exist_ok=True)
-    rng = np.random.default_rng(arguments.seed)
+    for n, t, d, m in product(Ns, Ts, Ds, Ms):
+        generar_y_guardar(n, t, d, m)
 
-    for size, matrix_type, domain, sample in product(
-        arguments.sizes, arguments.types, arguments.domains, arguments.samples
-    ):
-        base = f"{size}_{matrix_type}_{domain}_{sample}"
-        left_path = arguments.output_dir / f"{base}_1.txt"
-        right_path = arguments.output_dir / f"{base}_2.txt"
-        if left_path.exists() and right_path.exists() and not arguments.overwrite:
-            print(f"Omitido (ya existe): {base}")
-            continue
-        write_matrix(left_path, generate_matrix(size, matrix_type, domain, rng))
-        write_matrix(right_path, generate_matrix(size, matrix_type, domain, rng))
-        print(f"Generado: {left_path.name}, {right_path.name}")
-
+    print("Todas las matrices han sido generadas.")
 
 if __name__ == "__main__":
-    main()
+    generar_todos()

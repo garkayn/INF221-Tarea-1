@@ -41,13 +41,13 @@ valores.
 
 \subsection{Multiplicación de matrices}
 
-El método clásico tiene costo $O(n^3)$, mientras Strassen realiza siete
+El método naive tiene costo $O(n^3)$, mientras Strassen realiza siete
 productos por nivel y alcanza $O(n^{\log_2 7})\approx O(n^{2.807})$
 \cite{strassen1969}. En dimensiones pequeñas el caso base y la sobrecarga de
-sumar y copiar submatrices dominan: para $n=256$, la mediana clásica fue
+sumar y copiar submatrices dominan: para $n=256$, la mediana naive fue
 \SI{9.497}{\milli\second} y Strassen \SI{12.763}{\milli\second}. En $n=1024$
 se observó el cruce esperado: Strassen tardó \SI{668.944}{\milli\second}
-frente a \SI{945.682}{\milli\second} del método clásico, una reducción de
+frente a \SI{945.682}{\milli\second} del método naive, una reducción de
 aproximadamente 29.3\%.
 
 \begin{figure}[H]
@@ -61,7 +61,7 @@ aproximadamente 29.3\%.
 
 La ventaja temporal de Strassen tuvo un costo de memoria: en $n=1024$ usó
 \SI{70.18}{\mebi\byte}, comparado con \SI{30.26}{\mebi\byte} del método
-clásico (\cref{fig:matrix-scale}). Como ambas implementaciones usan matrices
+naive (\cref{fig:matrix-scale}). Como ambas implementaciones usan matrices
 densas y no omiten ceros, el tipo disperso, diagonal o denso tuvo un efecto
 menor que la dimensión. Los tiempos diminutos de $n=10$ y $n=16$ deben
 interpretarse con cautela, pues son comparables al ruido del sistema; además,

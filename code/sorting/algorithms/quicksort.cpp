@@ -76,7 +76,7 @@ void quickSortRange(
     }
 }
 
-}  // namespace
+}
 
 void quickSort(std::vector<int>& values) {
     if (!values.empty()) {

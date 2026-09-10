@@ -2,7 +2,7 @@
  * INF-221 Algoritmos y Complejidad - 2026-2
  * Tarea 1 - Matías Jorquera - Rol 202310127-3
  *
- * Programa principal para medir multiplicación clásica y Strassen. Cada
+ * Programa principal para medir multiplicación naive y Strassen. Cada
  * algoritmo se ejecuta en un proceso independiente; el tiempo excluye E/S y
  * la memoria informada es el máximo RSS del proceso trabajador.
  *
@@ -327,7 +327,7 @@ void printUsage(const char* executable) {
               << "Ejecuta todos los pares válidos de data/matrix_input.\n";
 }
 
-}  // namespace
+}
 
 int main(int argc, char* argv[]) {
     try {

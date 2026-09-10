@@ -3,7 +3,7 @@
  * Tarea 1 - Matías Jorquera - Rol 202310127-3
  *
  * Algoritmo de Strassen con siete multiplicaciones recursivas, relleno con
- * ceros para dimensiones no potencia de dos y caso base clásico de tamaño 64.
+ * ceros para dimensiones no potencia de dos y caso base escalar.
  * Referencia original: Volker Strassen, "Gaussian elimination is not
  * optimal", Numerische Mathematik 13, pp. 354-356, 1969.
  * https://doi.org/10.1007/BF02165411
@@ -16,8 +16,6 @@
 #include <stdexcept>
 
 namespace {
-
-constexpr std::size_t kNaiveCutoff = 64;
 
 Matrix add(const Matrix& left, const Matrix& right) {
     Matrix result(left.size());
@@ -65,8 +63,10 @@ void placeQuadrant(
 
 Matrix strassenRecursive(const Matrix& left, const Matrix& right) {
     const std::size_t size = left.size();
-    if (size <= kNaiveCutoff) {
-        return naiveMultiply(left, right);
+    if (size == 1) {
+        Matrix result(1);
+        result(0, 0) = left(0, 0) * right(0, 0);
+        return result;
     }
 
     const std::size_t half = size / 2;
@@ -108,7 +108,7 @@ std::size_t nextPowerOfTwo(const std::size_t value) {
     return power;
 }
 
-}  // namespace
+}
 
 Matrix strassenMultiply(const Matrix& left, const Matrix& right) {
     if (left.size() != right.size()) {
