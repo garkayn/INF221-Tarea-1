@@ -121,6 +121,10 @@ std::uint64_t checksum(const std::vector<int>& values) {
 
 using SortFunction = void (*)(std::vector<int>&);
 
+void standardSortAdapter(std::vector<int>& values) {
+    values = sortArray(values);
+}
+
 SortFunction findAlgorithm(const std::string& name) {
     if (name == "merge_sort") {
         return mergeSort;
@@ -132,7 +136,7 @@ SortFunction findAlgorithm(const std::string& name) {
         return patienceSort;
     }
     if (name == "std_sort") {
-        return standardSort;
+        return standardSortAdapter;
     }
     throw std::invalid_argument("Algoritmo desconocido: " + name);
 }

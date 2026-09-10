@@ -166,18 +166,11 @@ python -m pip install "numpy>=1.26,<3.0" "matplotlib>=3.8,<4.0"
 
 ## Compilación y ejecución
 
-Desde el directorio `code`, en Linux:
+Una vez ejecutados ambos scripts generadores de inputs. En el directorio `code`:
 
 ```bash
 make
-make PYTHON=python benchmark
-```
-
-También es posible ejecutar cada experimento por separado (los usé para testear, pero mejor los dejo por si acaso):
-
-```bash
-make PYTHON=python -C sorting benchmark
-make PYTHON=python -C matrix_multiplication benchmark
+make benchmark
 ```
 
 Los ejecutables utilizan rutas relativas, por lo que las reglas `run` de los
