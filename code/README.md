@@ -180,6 +180,7 @@ python -m pip install "numpy>=1.26,<3.0" "matplotlib>=3.8,<4.0"
 
 ## Compilación y ejecución
 
+<<<<<<< HEAD
 Desde el directorio `code`, en Linux, el flujo completo se ejecuta con:
 
 ```bash
@@ -230,6 +231,13 @@ También es posible ejecutar cada experimento por separado (los usé para testea
 ```bash
 make PYTHON=python -C sorting benchmark
 make PYTHON=python -C matrix_multiplication benchmark
+=======
+Una vez ejecutados ambos scripts generadores de inputs. En el directorio `code`:
+
+```bash
+make
+make benchmark
+>>>>>>> 34344717fffad3bc511085fc9d6cfa928c19577e
 ```
 
 Los ejecutables utilizan rutas relativas, por lo que las reglas `run` de los
