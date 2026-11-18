@@ -1,29 +1,16 @@
-# TAREA 1 INF-221 2026-2
+# INF-221 — algoritmos y complejidad
 
-## Estructura del Repositorio
+Implementación y estudio experimental de algoritmos de multiplicación de matrices y ordenamiento, desarrollado para la Tarea 1 de INF-221.
 
-Este repositorio contiene la implementación, los datasets, las mediciones, los
-gráficos reproducibles y el mini-informe de la Tarea 1 de *INF-221 Algoritmos y
-Complejidad*.
+## Contenido
 
-**Entrega:** archivo `.zip` vía aula.usm.cl
+- `code/matrix_multiplication`: multiplicación ingenua y algoritmo de Strassen.
+- `code/sorting`: `std::sort`, merge sort, quick sort y patience sort.
+- `assignment_statement`: enunciado y fuentes del curso.
+- `report`: informe y materiales de análisis.
 
-A continuación, se describe la estructura del repositorio:
+El trabajo incluye mediciones y gráficos para comparar los algoritmos. Para reproducir los resultados, revisa las instrucciones y dependencias descritas dentro de cada subcarpeta de `code`; las mediciones dependen del equipo y del compilador utilizados.
 
-```bash
-├── assignment_statement
-├── code
-├── report
-└── README.md
-```
+## Alcance
 
-### `assignment_statement`
-Contiene el enunciado de la tarea, así como los archivos fuente del enunciado en formato LaTeX (.tex).
-
-### `code`
-Contiene los programas implementados y las instrucciones de reproducción:
-- `matrix_multiplication`: Algoritmo de Strassen y versión Naive.
-- `sorting`: std::sort, merge sort, quick sort, patience sort.
-
-### `report`
-En esta carpeta se encuentran los archivos LATEX del mini-informe correspondiente a la tarea.
+Es una entrega académica colaborativa. El informe y las mediciones representan la configuración y los datos de la tarea, no una evaluación universal de los algoritmos. Conserva los créditos del equipo al reutilizar o presentar este trabajo.
