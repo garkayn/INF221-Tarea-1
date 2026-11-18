@@ -12,4 +12,4 @@
 void mergeSort(std::vector<int>& values);
 void quickSort(std::vector<int>& values);
 void patienceSort(std::vector<int>& values);
-void standardSort(std::vector<int>& values);
+std::vector<int> sortArray(std::vector<int>& values);

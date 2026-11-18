@@ -63,7 +63,9 @@ muestras `a`, `b` y `c`. Como genera dos matrices por combinación, produce
 Se ejecuta con:
 
 ```bash
-python3 matrix_multiplication/scripts/matrix_generator.py
+cd matrix_multiplication/scripts
+python3 matrix_generator.py
+cd ../..
 ```
 
 El generador de gráficos se encuentra en:
@@ -127,6 +129,18 @@ El generador de arreglos se encuentra en:
 sorting/scripts/array_generator.py
 ```
 
+Genera 72 archivos de entrada con tamaños `10`, `1000`, `100000` y
+`10000000`, los tipos `ascendente`, `descendente` y `aleatorio`, los dominios
+`D1` y `D7`, y las muestras `a`, `b` y `c`.
+
+Como las rutas del script son relativas a su directorio, se ejecuta con:
+
+```bash
+cd sorting/scripts
+python3 array_generator.py
+cd ../..
+```
+
 El generador de gráficos se encuentra en:
 
 ```text
@@ -166,12 +180,50 @@ python -m pip install "numpy>=1.26,<3.0" "matplotlib>=3.8,<4.0"
 
 ## Compilación y ejecución
 
-Desde el directorio `code`, en Linux:
+Desde el directorio `code`, en Linux, el flujo completo se ejecuta con:
 
 ```bash
 make
 make PYTHON=python benchmark
 ```
+
+`make` y `make benchmark` limpian los objetos y ejecutables anteriores,
+generan los datasets, compilan los programas, ejecutan las mediciones y
+generan los gráficos.
+
+También es posible ejecutar un solo experimento completo:
+
+```bash
+make sorting-experiment PYTHON=python
+make matrix-experiment PYTHON=python
+```
+
+Las etapas se pueden ejecutar por separado:
+
+```bash
+make clean
+make generate
+make build
+make measure
+make plots PYTHON=python
+```
+
+También existen comandos específicos para cada experimento:
+
+```bash
+make generate-sorting
+make generate-matrix
+make sorting
+make matrix
+make measure-sorting
+make measure-matrix
+make plots-sorting PYTHON=python
+make plots-matrix PYTHON=python
+```
+
+El target `run` ejecuta las mediciones usando los inputs y ejecutables
+existentes, sin regenerar datasets. Los targets `sorting` y `matrix` solo
+compilan su respectivo programa.
 
 También es posible ejecutar cada experimento por separado (los usé para testear, pero mejor los dejo por si acaso):
 

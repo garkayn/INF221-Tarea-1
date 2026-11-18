@@ -16,7 +16,7 @@ DEP = $(OBJ:.o=.d)
 TARGET  = matrix_multiplication
 RUN     = ./$(TARGET)
 
-.PHONY: all run plots benchmark clean
+.PHONY: all run execute plots benchmark clean
 
 all: $(TARGET)
 
@@ -26,7 +26,12 @@ $(TARGET): $(OBJ)
 %.o: %.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(DEPFLAGS) -c -o $@ $<
 
-run: $(TARGET)
+run:
+	$(MAKE) clean
+	$(MAKE) all
+	$(MAKE) execute
+
+execute: $(TARGET)
 	$(RUN)
 
 plots:
